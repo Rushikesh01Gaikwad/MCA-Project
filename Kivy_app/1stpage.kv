@@ -1,0 +1,585 @@
+WindowManager:
+    testApp1:
+    sign_in_file_stud:
+    sign_up_file_stud:
+    sign_in_file_teacher:
+    sign_up_file_teacher:
+    main_screen_stud:
+    main_screen_teach:
+
+
+<testApp1>
+    name: '1st_page'
+    Screen:
+        Image:
+            source: "login.png"
+            size_hint: None, None
+            width: "360dp"
+            height: "640dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+
+        MDLabel:
+            text: "Welcome"
+            font_size: "48dp"
+            halign: "center"
+            color: "#FF5623"
+            pos_hint: {'center_y':.8}
+
+        MDLabel:
+            text: "@rushi_G_22201201_2024MCA"
+            color: "FFFFFF"
+            halign: "center"
+            pos_hint: {'center_y':.2}
+
+        BoxLayout:
+            size_hint:.85, None
+            height: "30dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            spacing: "5dp"
+
+            MDFlatButton:
+                text: "Teacher"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#FF5623"
+                on_release: root.manager.current = 'sign_in_teacher'
+
+
+            MDFlatButton:
+                text: "Student"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#FF5623"
+                on_release: root.manager.current = 'sign_in_stud'
+
+
+<sign_in_file_stud>
+    name: 'sign_in_stud'
+    Screen:
+        Image:
+            source: "login.png"
+            size_hint: None, None
+            width: "360dp"
+            height: "640dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+        MDLabel:
+            text: "Student Sign In"
+            font_size: "30dp"
+            halign: "center"
+            color: "#ff5623"
+            pos_hint: {'center_y':.8}
+
+        MDTextField:
+            hint_text: "Roll Number"
+            id: roll_input
+            icon_right: 'account'
+            font_size: "20dp"
+            size_hint_x: .85
+            pos_hint: {'center_x':.5, 'center_y':.65}
+            on_text: self.text = self.text.replace(" ", "")     #for not give a space in username
+            write_tab: False    # is for not give a tab
+
+        MDTextField:
+            id: psswd
+            hint_text: "Password"
+            password: True
+            icon_right: 'eye-off'
+            font_size: "20dp"
+            size_hint_x: .85
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            on_text: self.text = self.text.replace(" ", "")
+            write_tab: False
+
+        BoxLayout:
+            size_hint:.85, None
+            height: "30dp"
+            pos_hint: {'center_x':.5, 'center_y':.4}
+            spacing: "5dp"
+
+            MDCheckbox:
+                id: cb
+                size_hint: None, None
+                width: "30dp"
+                height: "30dp"
+                pos_hint: {'center_x':.5, 'center_y':.2}
+                on_press:
+                    psswd.password = False if psswd.password == True else True
+                    psswd.icon_right = "eye" if psswd.icon_right == "eye-off" else "eye-off"
+
+            MDLabel:
+                text: "[ref=Show Password]Show Password[/ref]"
+                markup: True
+                pos_hint: {'center_x':.5, 'center_y':.2}
+                on_ref_press:
+                    cb.active = False if cb.active == True else True  # is for click on show password button
+                    psswd.password = False if psswd.password == True else True  #This is for show password
+                    psswd.icon_right = "eye" if psswd.icon_right == "eye-off" else "eye-off"    #This is for icon eyeon off
+
+
+        BoxLayout:
+            size_hint: .6, None
+            height: "30dp"
+            pos_hint: {'center_x':.5, 'center_y':.3}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "SIGN IN"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#FF5623"
+                on_release: root.validate_login_stud(roll_input.text, psswd.text)
+
+
+            MDFlatButton:
+                text: "SIGN UP"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#FF5623"
+                on_release: root.manager.current = 'sign_up_stud'
+
+        MDLabel:
+            id: log_msg
+            text: ''
+            font_size: "20dp"
+            halign: "center"
+            color: "#ffffff"
+            pos_hint: {'center_y':.2}
+
+        BoxLayout:
+            size_hint: .2, None
+            height: "30dp"
+            pos_hint: {'center_x':.1, 'center_y':.9}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "<--"
+                font_size: "25dp"
+                size_hint_x: 1
+                on_release: root.manager.current = '1st_page'
+
+
+
+<sign_up_file_stud>
+    name: "sign_up_stud"
+    Screen:
+        Image:
+            source: "login.png"
+            size_hint: None, None
+            width: "360dp"
+            height: "640dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+
+        MDLabel:
+            text: "Student Registration"
+            font_size: "25dp"
+            halign: "center"
+            color: "#FF5623"
+            pos_hint: {'center_x':.5, 'center_y':.9}
+
+        MDTextField:
+            hint_text: "Full Name"
+            id: name_input
+            icon_right: "account"
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.8}
+            write_tab: False    # is for not give a tab
+
+        MDTextField:
+            hint_text: "Gender"
+            icon_right: "human-male-female"
+            id: gender_input
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.7}
+            on_text: self.text = self.text.replace(" ", "")
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Class"
+            icon_right: "google-classroom"
+            id: class_input
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.6}
+            on_text: self.text = self.text.replace(" ","")
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Roll Number"
+            icon_right: "counter"
+            id: roll_input
+            font_size: "20dp"
+            size_hint_x: .85
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            on_text: self.text = self.text.replace(" ","")
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Mobile number"
+            icon_right: "cellphone"
+            id: mob_input
+            font_size: "20dp"
+            size_hint_x: .85
+            pos_hint: {'center_x': .5, 'center_y': .4}
+            on_text: self.text = self.text.replace(" ","")
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Password"
+            icon_right: "eye-off"
+            id: pass_input
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.3}
+            on_text: self.text = self.text.replace(" ","")
+            write_tab: False
+
+        BoxLayout:
+            size_hint: .9, None
+            height: "30dp"
+            pos_hint: {'center_x':.5, 'center_y':.2}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "Submit"
+                font_size: "15dp"
+                size_hint_x: 1
+                md_bg_color: "FF5623"
+                on_release: root.submit_stud(name_input.text, gender_input.text, class_input.text, roll_input.text, mob_input.text, pass_input.text)
+
+        BoxLayout:
+            size_hint: .2, None
+            height: "30dp"
+            pos_hint: {'center_x':.1, 'center_y':.9}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "<--"
+                font_size: "25dp"
+                size_hint_x: 1
+                on_release: root.manager.current = 'sign_in_stud'
+
+
+<sign_in_file_teacher>
+    name: 'sign_in_teacher'
+    Screen:
+        Image:
+            source: "login.png"
+            size_hint: None, None
+            width: "360dp"
+            height: "640dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+
+        MDLabel:
+            text: "Teacher Sign In"
+            font_size: "28dp"
+            halign: "center"
+            color: "#FF5623"
+            pos_hint: {'center_y':.9}
+
+        MDTextField:
+            hint_text: "Full Name"
+            id: name_input
+            icon_right: 'account'
+            font_size: "18dp"
+            size_hint_x: .85
+            pos_hint: {'center_x':.5, 'center_y':.8}
+            # on_text: self.text = self.text.replace(" ", "")     #for not give a space in username
+            write_tab: False    # is for not give a tab
+
+
+        MDTextField:
+            hint_text: "Subject Name"
+            id: sub_input
+            icon_right: 'book'
+            font_size: "18dp"
+            size_hint_x: .85
+            pos_hint: {'center_x':.5, 'center_y':.65}
+            # on_text: self.text = self.text.replace(" ", "")     #for not give a space in username
+            write_tab: False    # is for not give a tab
+
+
+        MDTextField:
+            id: psswd
+            hint_text: "Password"
+            password: True
+            icon_right: 'eye-off'
+            font_size: "18dp"
+            size_hint_x: .85
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            # on_text: self.text = self.text.replace(" ", "")
+            write_tab: False
+
+        BoxLayout:
+            size_hint:.85, None
+            height: "30dp"
+            pos_hint: {'center_x':.5, 'center_y':.4}
+            spacing: "5dp"
+
+            MDCheckbox:
+                id: cb
+                size_hint: None, None
+                width: "30dp"
+                height: "30dp"
+                pos_hint: {'center_x':.5, 'center_y':.2}
+                on_press:
+                    psswd.password = False if psswd.password == True else True
+                    psswd.icon_right = "eye" if psswd.icon_right == "eye-off" else "eye-off"
+
+            MDLabel:
+                text: "[ref=Show Password]Show Password[/ref]"
+                markup: True
+                pos_hint: {'center_x':.5, 'center_y':.2}
+                on_ref_press:
+                    cb.active = False if cb.active == True else True  # is for click on show password button
+                    psswd.password = False if psswd.password == True else True  #This is for show password
+                    psswd.icon_right = "eye" if psswd.icon_right == "eye-off" else "eye-off"    #This is for icon eyeon off
+
+        BoxLayout:
+            size_hint: .6, None
+            height: "30dp"
+            pos_hint: {'center_x':.5, 'center_y':.27}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "SIGN IN"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#FF5623"
+                on_release: root.validate_login_teach(name_input.text,sub_input.text, psswd.text)
+
+            MDFlatButton:
+                text: "SIGN UP"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#FF5623"
+                on_release: root.manager.current = 'sign_up_teacher'
+
+        BoxLayout:
+            size_hint: .2, None
+            height: "30dp"
+            pos_hint: {'center_x':.1, 'center_y':.9}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "<--"
+                font_size: "25dp"
+                size_hint_x: 1
+                on_release: root.manager.current = '1st_page'
+
+        MDLabel:
+            id: log_msg
+            text: ''
+            font_size: "20dp"
+            halign: "center"
+            color: "#ffffff"
+            pos_hint: {'center_y':.2}
+
+
+<sign_up_file_teacher>
+    name: 'sign_up_teacher'
+    Screen:
+        Image:
+            source: 'login.png'
+            size_hint: None, None
+            width: "360dp"
+            height: "640dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+
+        MDLabel:
+            text: 'Teacher Registration'
+            font_size: "30dp"
+            halign: "center"
+            color: "FF5623"
+            pos_hint: {'center_y':.8}
+
+        MDTextField:
+            hint_text: "Full Name"
+            id: name_teach
+            icon_right: "account"
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.7}
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Class"
+            icon_right: "google-classroom"
+            id: class_teach
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.6}
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Subject"
+            id: subject_teach
+            icon_right: "book"
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Mobile Number"
+            id: mob_teach
+            icon_right: "cellphone"
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.4}
+            write_tab: False
+
+        MDTextField:
+            hint_text: "Password"
+            id: pass_teach
+            icon_right: "eye-off"
+            font_size: "20dp"
+            size_hint_x: 0.85
+            pos_hint: {'center_x':.5, 'center_y':.3}
+            write_tab: False
+
+        BoxLayout:
+            size_hint: .9, None
+            height: "30dp"
+            pos_hint: {'center_x':.5, 'center_y':.2}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "Submit"
+                font_size: "15dp"
+                size_hint_x: 1
+                md_bg_color: "#FF5623"
+                on_release: root.submit_teach(name_teach.text, class_teach.text, subject_teach.text, mob_teach.text, pass_teach.text)
+
+        BoxLayout:
+            size_hint: .2, None
+            height: "30dp"
+            pos_hint: {'center_x':.1, 'center_y':.9}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "<--"
+                font_size: "25dp"
+                size_hint_x: 1
+                on_release: root.manager.current = 'sign_in_teacher'
+
+<main_screen_stud>
+    name: 'main_stud'
+    Screen:
+        Image:
+            source: 'login.png'
+            size_hint: None, None
+            width: "360dp"
+            height: "640dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+
+        MDLabel:
+            text: 'QR Code Student'
+            font_size: "30dp"
+            halign: "center"
+            color: "FF5623"
+            pos_hint: {'center_y':.8}
+
+        BoxLayout:
+            size_hint: .2, None
+            height: "30dp"
+            pos_hint: {'center_x':.8, 'center_y':.9}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "Log Out"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#f1438e"
+                on_release: root.manager.current = 'sign_in_stud'
+
+        Image:
+            id: qr_image
+            size_hint: None, None
+            width: "200dp"
+            height: "200dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+
+
+<main_screen_teach>
+    name: 'main_teach'
+    Screen:
+        Image:
+            source: 'login.png'
+            size_hint: None, None
+            width: "360dp"
+            height: "640dp"
+            pos_hint: {'center_x':.5, 'center_y':.5}
+
+        #Camera:
+            #id: camera
+            #resolution: (640, 480)
+            #play: True
+
+        MDLabel:
+            text: 'Scanner'
+            font_size: "30dp"
+            halign: "center"
+            color: "FF5623"
+            pos_hint: {'center_y':.8}
+
+
+        BoxLayout:
+            size_hint: .2, None
+            height: "30dp"
+            pos_hint: {'center_x':.8, 'center_y':.9}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "Log Out"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#f1438e"
+                on_release: root.manager.current = 'sign_in_teacher'
+
+        MDLabel:
+            id: qr_msg
+            text: ''
+            font_size: "20dp"
+            halign: "center"
+            color: "#ffffff"
+            pos_hint: {'center_y':.2}
+
+
+        BoxLayout:
+            size_hint: .2, None
+            height: "30dp"
+            pos_hint: {'center_x':.42, 'center_y':.28}
+            spacing: "15dp"
+
+            MDFlatButton:
+                text: "Open Camera"
+                font_size: "18dp"
+                size_hint_x: 1
+                md_bg_color: "#f1438e"
+                on_release: root.open_cam()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
